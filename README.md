@@ -8,6 +8,8 @@ A Flipper with the Xtreme-Firmware (or any other firmware that has USB mass stor
 # Why? 
 In case you cant use online exfiltration.
 
+I guess its also less trace-able to exfil this way.
+
 # How to use?
 You connect the Flipper to a Windows PC and execute your BadKB payload. After the Flipper is done switch to the Flippers applications and select USB-> Mass Storage -> select your disc image
 
