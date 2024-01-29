@@ -23,3 +23,7 @@ Now the Flipper is done with inputting keystrokes and thus you can change it int
 While you change the Flipper, the script will wait for the Flipper to connect as USB storage device and after that will start to write the goodiesfile onto the Drive
 
 After that you should do some clean up (Checkout I-Am-Jakoby's Repository https://github.com/I-Am-Jakoby/PowerShell-for-Hackers for payloads and "Clean-Exfil")
+
+# And now?
+
+Well you can also use this in reverse to deploy payloads in arbitrary formats over usb storage onto the device (Potentially works for all OS's although i only tested it on Windows.)
